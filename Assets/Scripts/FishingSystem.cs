@@ -54,11 +54,22 @@ public class FishingSystem : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag(waterTag)) canFish = true;
+        // Ini akan print APAPUN yang ditabrak ke konsol
+        Debug.Log("Kena sesuatu: " + other.gameObject.name + " | Tag: " + other.tag);
+
+        if (other.CompareTag(waterTag))
+        {
+            Debug.Log("Masuk Air!");
+            canFish = true;
+        }
     }
+
 
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.CompareTag(waterTag)) canFish = false;
     }
+
+
 }
+

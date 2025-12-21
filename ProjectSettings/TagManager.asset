@@ -3,7 +3,10 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - EnemyObject
+  - Crop
+  - Water
   layers:
   - Default
   - TransparentFX
@@ -44,20 +47,11 @@ TagManager:
   - name: Ground
     uniqueID: 306071623
     locked: 0
-  - name: Ground 2
-    uniqueID: 1909786885
-    locked: 0
-  - name: Buildings
+  - name: Environtment
     uniqueID: 2324691355
     locked: 0
-  - name: Buildings 2
-    uniqueID: 2260356497
-    locked: 0
-  - name: Trees
-    uniqueID: 1807171439
-    locked: 0
-  - name: Player
-    uniqueID: 958556893
+  - name: UI
+    uniqueID: 1197197633
     locked: 0
   m_RenderingLayers:
   - Default

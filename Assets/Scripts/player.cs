@@ -18,6 +18,8 @@ public class player : MonoBehaviour
     private readonly int _animMove = Animator.StringToHash("anim_humanwalk");
     private readonly int _animIdle = Animator.StringToHash("anim_humanidle");
 
+    private int _currentState;
+
     private void Update()
     {
         if (!canMove)
@@ -54,11 +56,17 @@ public class player : MonoBehaviour
 
     private void UpdateAnimation()
     {
+        // Handle Flip Character
         if (_moveDir.x != 0) _spriteRenderer.flipX = (_moveDir.x < 0);
 
-        if (_moveDir.sqrMagnitude > 0)
-            _animator.CrossFade(_animMove, 0);
-        else
-            _animator.CrossFade(_animIdle, 0);
+        // Tentukan animasi mana yang harus dimainkan
+        int stateToPlay = (_moveDir.sqrMagnitude > 0) ? _animMove : _animIdle;
+
+        // Jika animasi yang mau dimainkan SAMA dengan yang sedang jalan, JANGAN lakukan apa-apa.
+        if (_currentState == stateToPlay) return;
+
+        // Jalankan animasi baru dan simpan state-nya
+        _animator.CrossFade(stateToPlay, 0);
+        _currentState = stateToPlay;
     }
 }
