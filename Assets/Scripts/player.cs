@@ -70,3 +70,13 @@ public class player : MonoBehaviour
         _currentState = stateToPlay;
     }
 }
+
+//using UnityEngine;
+
+public class TestTrigger : MonoBehaviour
+{
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        Debug.Log("TRIGGER KENA: " + other.name);
+    }
+}

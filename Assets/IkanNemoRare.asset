@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da36abf9f44615d459b60a37bf674c0f, type: 3}
+  m_Name: IkanNemoRare
+  m_EditorClassIdentifier: 
+  fishName: Nemo
+  fishIcon: {fileID: 3577127785787398535, guid: 12e2196704cdd0946919acd708c4c5e5, type: 3}
+  spawnChance: 50
+  reactionTime: 0.8
