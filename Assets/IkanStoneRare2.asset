@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: da36abf9f44615d459b60a37bf674c0f, type: 3}
-  m_Name: IkanDori
+  m_Name: IkanStoneRare2
   m_EditorClassIdentifier: 
-  fishName: Dori
-  fishIcon: {fileID: 8926406433705221681, guid: d160ba601024578498d1cfac33955d90, type: 3}
-  fishPrefab: {fileID: 4930106956210158094, guid: 29ca4a6addbf99547b6e7b8654e84458, type: 3}
-  spawnChance: 80
-  reactionTime: 2
+  fishName: Stone
+  fishIcon: {fileID: 7495648390666801960, guid: 7ad9ba5836d16c24c857e64d5a843113, type: 3}
+  fishPrefab: {fileID: 3267706736841556793, guid: 195ea053fdf69374fb5239ade8a1ddea, type: 3}
+  spawnChance: 30
+  reactionTime: 1

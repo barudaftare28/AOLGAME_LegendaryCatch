@@ -5,6 +5,7 @@ public class FishData : ScriptableObject
 {
     public string fishName;
     public Sprite fishIcon; // Masukkan gambar ikanmu di sini
+    public GameObject fishPrefab;
     
     [Header("Difficulty Settings")]
     [Tooltip("Semakin kecil nilainya, semakin susah ditangkap (Rare)")]

@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fishName: Nemo
   fishIcon: {fileID: 3577127785787398535, guid: 12e2196704cdd0946919acd708c4c5e5, type: 3}
-  spawnChance: 50
-  reactionTime: 0.8
+  fishPrefab: {fileID: 8718466372227622350, guid: fb6d711db83c79944b0b69d2b2b94af6, type: 3}
+  spawnChance: 60
+  reactionTime: 1.5

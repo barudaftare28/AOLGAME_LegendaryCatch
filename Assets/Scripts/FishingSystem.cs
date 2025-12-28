@@ -2,27 +2,27 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEngine.UI; // Wajib untuk Slider
+using UnityEngine.UI;
 
 public class FishingSystem : MonoBehaviour
 {
     [Header("Dependencies")]
     public player playerScript;
     public GameObject AlertIcon;
-    public GameObject FishIcon;
+    public GameObject FishIcon; // Tongkat pancing
     public TextMeshProUGUI uiFishText;
 
     [Header("Visual Effects")]
     public GameObject bubblePrefab;
 
+    [Header("Hold Meter Settings")]
+    public GameObject fishingSliderUI;
+    public Slider pancingSlider;
+    public float baseDifficulty = 1f;
+    private float currentDifficulty;
+
     [Header("Fish Data")]
     public List<FishData> availableFish;
-
-    [Header("Hold Meter Settings")]
-    public GameObject fishingSliderUI; // Drag objek "Fishing Slider" ke sini
-    public Slider pancingSlider;       // Drag komponen Slider-nya ke sini
-    public RectTransform sweetSpot;    // Drag objek "SweetSpot" (hijau) ke sini
-    public float difficultyScale = 1f; // Pengali kesulitan
 
     [Header("Settings")]
     public string waterTag = "Water";
@@ -43,11 +43,6 @@ public class FishingSystem : MonoBehaviour
 
     void Update()
     {
-        if (FishIcon != null && playerScript != null && FishIcon.activeSelf)
-        {
-            FishIcon.transform.position = playerScript.transform.position + offset;
-        }
-
         if (canFish && Input.GetKeyDown(KeyCode.Space) && !isFishing)
         {
             StartCoroutine(FishingRoutine());
@@ -58,69 +53,81 @@ public class FishingSystem : MonoBehaviour
     {
         isFishing = true;
         if (playerScript != null) playerScript.canMove = false;
-        if (FishIcon != null) FishIcon.SetActive(false);
 
-        // 1. Fase Tunggu & Gelembung
-        float waitTime = Random.Range(2f, 5f);
+        // 1. Pilih Ikan Terlebih Dahulu (Agar tahu kesulitannya)
+        FishData targetFish = GetRandomFish();
+        // Gunakan 'Reaction Time' dari FishData sebagai pengali kesulitan (Ikan Rare lebih berat)
+        currentDifficulty = baseDifficulty / (targetFish != null ? targetFish.reactionTime : 1f);
+
+        Vector3 rodOriginalPos = FishIcon.transform.localPosition;
+
+        // 2. Fase Tunggu & Gelembung
         if (bubblePrefab != null)
         {
-            // Munculkan di posisi player + geser ke depan
-            Vector3 spawnPos = playerScript.transform.position + playerScript.transform.right * 1.5f;
-            spawnPos.z = 0; // Paksa Z ke 0 agar sejajar player
-
+            Vector3 spawnPos = transform.position + transform.right * 1.5f;
+            spawnPos.z = 0;
             currentBubble = Instantiate(bubblePrefab, spawnPos, Quaternion.identity);
-
-            // PERINTAH UNTUK MENYALAKAN (karena Play On Awake mati)
             ParticleSystem ps = currentBubble.GetComponent<ParticleSystem>();
             if (ps != null) ps.Play();
         }
-        yield return new WaitForSeconds(waitTime);
+
+        yield return new WaitForSeconds(Random.Range(2f, 5f));
         if (currentBubble != null) Destroy(currentBubble);
 
-        // 2. Ikan Menggigit (!)
+        // 3. Ikan Menggigit (!)
         AlertIcon.SetActive(true);
-        yield return new WaitForSeconds(0.8f); // Waktu reaksi singkat
+        yield return new WaitForSeconds(targetFish != null ? targetFish.reactionTime : 0.8f);
         AlertIcon.SetActive(false);
 
-        // 3. TARGET 24-26 DES: LOGIKA HOLD METER
+        // 4. MINI-GAME: HOLD METER
         fishingSliderUI.SetActive(true);
-        pancingSlider.value = 0.5f; // Mulai dari tengah
+        pancingSlider.value = 0.5f;
         bool caught = false;
-        float gameTimer = 5f; // Durasi mini-game
+        float gameTimer = 5f;
 
         while (gameTimer > 0)
         {
             gameTimer -= Time.deltaTime;
 
-            // Bar turun otomatis (diseret ikan)
-            pancingSlider.value -= 0.3f * Time.deltaTime * difficultyScale;
+            // Efek Getar Tongkat (Sensasi ditarik ikan)
+            FishIcon.transform.localPosition = rodOriginalPos + (Vector3)Random.insideUnitCircle * 0.05f;
 
-            // Bar naik jika Space ditekan
+            // Bar turun otomatis, lebih cepat jika ikan Rare
+            pancingSlider.value -= 0.4f * Time.deltaTime * currentDifficulty;
+
             if (Input.GetKey(KeyCode.Space))
             {
-                pancingSlider.value += 0.8f * Time.deltaTime * difficultyScale;
-            }
-
-            // Cek apakah bar ada di area SweetSpot (Hijau)
-            // Sederhananya: Bar harus di antara 0.4 dan 0.6 (sesuaikan dengan besar kotak hijaumu)
-            if (gameTimer <= 0 && pancingSlider.value >= 0.35f && pancingSlider.value <= 0.65f)
-            {
-                caught = true;
+                pancingSlider.value += 0.8f * Time.deltaTime;
             }
             yield return null;
         }
 
         fishingSliderUI.SetActive(false);
+        FishIcon.transform.localPosition = rodOriginalPos;
 
-        // 4. Hasil
-        if (caught)
+        // Cek Keberhasilan (Sesuai visual area hijau di tengah)
+        if (pancingSlider.value >= 0.35f && pancingSlider.value <= 0.65f) caught = true;
+
+        // 5. Hasil Tangkapan (Loncat Fisik)
+        if (caught && targetFish != null)
         {
             totalFishCaught++;
-
             UpdateFishUI();
-            //GameObject ikanTertangkap = Instantiate(GetRandomFish().fishPrefab, transform.position + Vector3.up, Quaternion.identity);
-            //Destroy(ikanTertangkap, 2f); // Ikan hilang setelah 2 detik (efek masuk tas)
-            Debug.Log("Berhasil Menangkap Ikan!");
+
+            if (targetFish.fishPrefab != null)
+            {
+                // Munculkan fisik ikan
+                GameObject ikanFisik = Instantiate(targetFish.fishPrefab, transform.position + Vector3.up, Quaternion.identity);
+
+                // Beri efek loncat (Wajib ada Rigidbody2D di Prefab Ikan)
+                Rigidbody2D rb = ikanFisik.GetComponent<Rigidbody2D>();
+                if (rb != null)
+                {
+                    rb.linearVelocity = new Vector2(Random.Range(-2f, 2f), 5f);
+                }
+                Destroy(ikanFisik, 1.5f);
+            }
+            Debug.Log("Berhasil Dapat: " + targetFish.fishName);
         }
         else
         {
@@ -128,7 +135,14 @@ public class FishingSystem : MonoBehaviour
         }
 
         if (playerScript != null) playerScript.canMove = true;
+        yield return new WaitForSeconds(0.5f);
         isFishing = false;
+    }
+
+    FishData GetRandomFish()
+    {
+        if (availableFish.Count == 0) return null;
+        return availableFish[Random.Range(0, availableFish.Count)];
     }
 
     void UpdateFishUI()
