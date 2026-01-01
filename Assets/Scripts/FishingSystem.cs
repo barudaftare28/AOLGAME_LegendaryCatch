@@ -12,6 +12,8 @@ public class FishingSystem : MonoBehaviour
     public GameObject FishIcon; // Tongkat pancing
     public TextMeshProUGUI uiFishText;
 
+    [SerializeField] InventoryManager _inventoryManager;
+
     [Header("Visual Effects")]
     public GameObject bubblePrefab;
 
@@ -127,6 +129,7 @@ public class FishingSystem : MonoBehaviour
                 }
                 Destroy(ikanFisik, 1.5f);
             }
+            _inventoryManager.fishAdded(targetFish);
             Debug.Log("Berhasil Dapat: " + targetFish.fishName);
         }
         else

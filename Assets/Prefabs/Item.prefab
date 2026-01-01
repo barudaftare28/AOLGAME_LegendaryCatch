@@ -111,7 +111,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -366.3, y: 43.9}
-  m_SizeDelta: {x: 70, y: 70}
+  m_SizeDelta: {x: 105, y: 105}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &5215966335554186600
 MonoBehaviour:
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe181ed9ba6c134685d31d926f69e90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _fishData: {fileID: 11400000, guid: fd859c75dbc580047b7e71a0b6ddb868, type: 2}
+  _fishData: {fileID: 0}
   _iconImage: {fileID: 1373981329031762462}
 --- !u!1 &8227820270361070283
 GameObject:
