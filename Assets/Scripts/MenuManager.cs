@@ -10,12 +10,7 @@ public class MenuManager : MonoBehaviour
     // Tambahan variabel untuk mengecek apakah sudah mulai main
     private bool sudahMulaiMain = false;
 
-    // Fungsi untuk memutar volume
-    public void SetVolume(float volume)
-    {
-        AudioListener.volume = volume;
-    }
-
+    
     // Fungsi buka/tutup panel (Alur Menu Utama)
     public void BukaSettings()
     {

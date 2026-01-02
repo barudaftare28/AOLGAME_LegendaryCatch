@@ -12,6 +12,8 @@ public class FishingSystem : MonoBehaviour
     public GameObject FishIcon; // Tongkat pancing
     public TextMeshProUGUI uiFishText;
 
+    public AudioManager _audioManager;
+
     [SerializeField] InventoryManager _inventoryManager;
 
     [Header("Visual Effects")]
@@ -43,11 +45,17 @@ public class FishingSystem : MonoBehaviour
         UpdateFishUI();
     }
 
+    public void Awake()
+    {
+        _audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();       
+    }
     void Update()
     {
         if (canFish && Input.GetKeyDown(KeyCode.Space) && !isFishing)
         {
+            _audioManager.playSFX(_audioManager.splash);
             StartCoroutine(FishingRoutine());
+
         }
     }
 
@@ -130,10 +138,12 @@ public class FishingSystem : MonoBehaviour
                 Destroy(ikanFisik, 1.5f);
             }
             _inventoryManager.fishAdded(targetFish);
+            _audioManager.playSFX(_audioManager.fishCaught);
             Debug.Log("Berhasil Dapat: " + targetFish.fishName);
         }
         else
         {
+            _audioManager.playSFX(_audioManager.fishOff);
             Debug.Log("Ikan Lepas!");
         }
 
