@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
-using Mono.Cecil;
+//using Mono.Cecil;
 using System;
 public class InventoryManager : MonoBehaviour,IPointerDownHandler,IPointerUpHandler  //interface buat drag mouse
 {
