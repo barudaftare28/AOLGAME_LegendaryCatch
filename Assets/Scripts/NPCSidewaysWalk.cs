@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class NPCMapWalker : MonoBehaviour
+public class NPCSidewaysWalk : MonoBehaviour
 {
     public float speed = 2f;
     public float leftBoundary = -10f; // Batas kiri map
