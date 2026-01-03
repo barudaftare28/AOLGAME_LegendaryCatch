@@ -1,7 +1,31 @@
-/*
-!/Assets/
-!/Packages/
-!/ProjectSettings/
-!/UserSettings/
-!.gitignore
-# /[Uu]ser[Ss]ettings/
+# Folder Sampah Unity (WAJIB DI-IGNORE)
+/[Ll]ibrary/
+/[Tt]emp/
+/[Oo]bj/
+/[Bb]uild/
+/[Bb]uilds/
+/[Ll]ogs/
+/[Uu]ser[Ss]ettings/
+
+# File System Sampah
+.DS_Store
+Thumbs.db
+
+# Visual Studio / Coding Cache
+.vs/
+*.csproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.opendb
+*.VC.db
+
+# Unity generated output
+/[Aa]ssets/[Aa]ddressable[Aa]ssets[Dd]ata/*/*.bin
+/[Aa]ssets/[Ss]treaming[Aa]ssets/aa/*
